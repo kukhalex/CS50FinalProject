@@ -6,12 +6,22 @@ from imdbfilmscrap import films_scrap
 def main():
     # Output programs logo/name in ascii format.
     print(welcome())
+
     # Calling user to choose current type of the mood.
     mood = get_mood()
+
     # Looking for the activities based on users mood.
     if mood:
-        films_scrap(mood)
-        ... # besides film scraping, need to find one more activity for user.
+        films = films_scrap(mood)
+        print(f'\n🪄Here are five films to watch while you feeling {mood.lower()}:\n')
+        for film in films:
+            print(
+                f'🎬Title: {film["Title"]}\n'
+                f'⭐IMDB Rating: {film["IMDB Rating"]}\n'
+                f'⌛Length: {film["Length"]}\n'
+                f'🎭Genre: {film["Genre"]}\n'
+                f'🧑‍🎤By: {film["By"]}\n'
+            )
 
 
 def welcome():
@@ -32,11 +42,6 @@ def welcome():
     intro = text2art(ascii_logo, ascii_font)
     # Returns str to main function.
     return intro
-
-
-def get_name():
-    ...
-
 
 def get_mood():
     """
@@ -63,7 +68,7 @@ def get_mood():
     print(choices)
     # Waiting for user to input valid value.
     while True:
-        user_choice = input("\nEnter the number followed by 'Enter' button: ").strip()
+        user_choice = input("\nType the number, followed by the 'Enter' button: ").strip()
         # Checking correctness of the users input.
         if not user_choice or user_choice not in ["1", "2", "3"]:
             print("\nPlease enter valid number:\n", choices)

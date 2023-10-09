@@ -1,17 +1,18 @@
+import random
 import requests
 from bs4 import BeautifulSoup
 
 
 def films_scrap(mood: str):
     """
-        Based on the param, - which is the users actual mood.
-        Scrap some films from the IMDB web-site.
-        :param: mood
-        :type: str
-        :raise: ...
-        :return: ...
-        :rtype: ...
-        """
+    Based on the param, - which is the users actual mood.
+    Scrap some films from the IMDB web-site.
+    :param: mood
+    :type: str
+    :raise: ...
+    :return: ...
+    :rtype: ...
+    """
 
     # Target URL (IMDB). Based on the users mood it consists of a different genres.
     if mood == "HAPPY":
@@ -23,6 +24,7 @@ def films_scrap(mood: str):
         calm_url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&genres=drama&sort=user_rating,desc"
         html_text = requests.get(calm_url).text
     if mood == "SAD":
+        # Getting text response from url.
         sad_url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&genres=comedy&sort=user_rating,desc"
         html_text = requests.get(sad_url).text
 
@@ -31,34 +33,51 @@ def films_scrap(mood: str):
     # Getting films on the first page.
     films = soup.find_all("div", class_="lister-item-content")
 
+    #
+    formatted_films_list = []
+
     # Loop over each film in films variable and getting details for each film, such as genre, length etc.
-    for film in films:
-        # Getting film name.
+    # Here we're using in-built func sample() of random module to take 5 random films out of our films list.
+    for film in random.sample(films, 5):
+        # At each iteration sequence we're getting current film name.
         film_name = " ".join(
             i for i in (film.find("h3", class_="lister-item-header").text.split())[1:-1]
         )
-        # Getting film IMDB rating.
+        # At each iteration sequence we're getting current film IMDB rating.
         film_rating = film.find("strong", class_="").text
-        # Getting film genre / lenghth.
+        # At each iteration sequence we're getting current film details (genre,length).
         film_details = film.find("p", "text-muted").text.split()
-        # Here we're checking if first index responds for the availability of the PG status and based
-        # on that detecting genre and length values indexes, then declaring them in the variables.
-        if film_details[0] in ["18", "ZA", "R", "G", "PG", "PG-13", "NC-17"]:
+        # At each iteration sequence we're checking if first index corresponds for the availability
+        # of the PG status and based on that, - detecting genre and length values indexes,
+        # then declaring them in the variables.
+        if film_details[0] in [
+            "12",
+            "16",
+            "18",
+            "ZA",
+            "R",
+            "G",
+            "PG",
+            "PG-13",
+            "NC-17",
+        ]:
             film_genre = " ".join(i for i in film_details[5::])
             film_length = " ".join(i for i in film_details[2:4])
         else:
             film_genre = " ".join(i for i in film_details[3::])
             film_length = " ".join(i for i in film_details[0:2])
-        # Getting film director and starring actors.
-        film_director_actors = " ".join(i for i in (film.find("p", class_="").text.split()))
-
-        print(
-            f"""
-        🪄Movie suggestion for you:
-        🎬Film title: {film_name}
-        ⭐IMDB Rating: {film_rating}
-        🎭Genre: {film_genre}
-        ⌛Length: {film_length} 
-        🧑‍🎤{film_director_actors}
-        """
+        # At each iteration sequence we're getting current film director and stars(actors).
+        film_director_actors = " ".join(
+            i for i in (film.find("p", class_="").text.split())
         )
+        # At each iteration sequence we're appending formatted date to out final films list.
+        formatted_films_list.append(
+            {
+                "Title": film_name,
+                "IMDB Rating": film_rating,
+                "Genre": film_genre,
+                "Length": film_length,
+                "By": film_director_actors,
+            }
+        )
+    return formatted_films_list
