@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def films_scrap(mood: str):
+def films_scrap(user_mood: str):
     """
     Based on the param, - which is the users actual mood.
     Scrap some films from the IMDB web-site.
@@ -15,17 +15,17 @@ def films_scrap(mood: str):
     """
 
     # Target URL (IMDB). Based on the users mood it consists of a different genres.
-    if mood == "HAPPY":
+    if user_mood == "HAPPY":
         # Getting text response from url.
-        happy_url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&genres=adventure&sort=user_rating,desc"
+        happy_url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&genres=comedy&sort=user_rating,desc"
         html_text = requests.get(happy_url).text
-    if mood == "CALM":
+    if user_mood == "CALM":
         # Getting text response from url.
-        calm_url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&genres=drama&sort=user_rating,desc"
+        calm_url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&genres=adventure&sort=user_rating,desc"
         html_text = requests.get(calm_url).text
-    if mood == "SAD":
+    if user_mood == "SAD":
         # Getting text response from url.
-        sad_url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&genres=comedy&sort=user_rating,desc"
+        sad_url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&genres=drama&sort=user_rating,desc"
         html_text = requests.get(sad_url).text
 
     # Creating object of the BeautifulSoup.
@@ -33,12 +33,13 @@ def films_scrap(mood: str):
     # Getting films on the first page.
     films = soup.find_all("div", class_="lister-item-content")
 
-    #
+    # Holding 'n' numbers of the films. 'n' could be set to any int value in 'films_n' variable.
     formatted_films_list = []
+    films_n = 5
 
     # Loop over each film in films variable and getting details for each film, such as genre, length etc.
     # Here we're using in-built func sample() of random module to take 5 random films out of our films list.
-    for film in random.sample(films, 5):
+    for film in random.sample(films, films_n):
         # At each iteration sequence we're getting current film name.
         film_name = " ".join(
             i for i in (film.find("h3", class_="lister-item-header").text.split())[1:-1]
