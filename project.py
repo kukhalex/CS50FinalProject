@@ -6,7 +6,7 @@ from imdbfilmscrap import films_scrap
 
 def main():
     # Outputs program name in ascii format.
-    print(program_logo())
+    print(program_logo(), end="")
     # Outputs program mood menu and prompts to chose menu option.
     print(mood_menu())
     mood: str = get_mood_option()
@@ -42,9 +42,9 @@ def mood_menu():
     headers: list = []
     # Table rows with option per each row.
     table: list = [
-        ["PRESS BUTTON:", "1️⃣", "IF YOU FEELING", "😁", "HAPPY"],
-        ["PRESS BUTTON:", "2️⃣", "IF YOU FEELING", "😌", "CALM"],
-        ["PRESS BUTTON:", "3️⃣", "IF YOU FEELING", "😔", "SAD"],
+        ["TYPE:", "1️⃣", "IF YOU FEELING", "😁", "HAPPY"],
+        ["TYPE:", "2️⃣", "IF YOU FEELING", "😌", "CALM"],
+        ["TYPE:", "3️⃣", "IF YOU FEELING", "😔", "SAD"],
     ]
     # Defines table font.
     tablefmt: str = "pretty"
@@ -86,9 +86,9 @@ def navigation_menu():
     headers: list = []
     # Defines table raw's with option per each row.
     table: list = [
-        ["PRESS BUTTON:", "1️⃣", "TO FIND MORE FILMS FOR YOUR ACTUAL MOOD"],
-        ["PRESS BUTTON:", "2️⃣", "TO CHANGE MOOD"],
-        ["PRESS BUTTON:", "3️⃣", "TO EXIT THE PROGRAM"],
+        ["TYPE:", "1️⃣", "TO FIND MORE FILMS FOR YOUR ACTUAL MOOD"],
+        ["TYPE:", "2️⃣", "TO CHANGE MOOD"],
+        ["TYPE:", "3️⃣", "TO EXIT THE PROGRAM"],
     ]
     # Defines table font.
     tablefmt: str = "pretty"
