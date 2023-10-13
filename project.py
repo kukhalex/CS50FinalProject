@@ -39,17 +39,17 @@ def mood_menu():
     :rtype: fstr
     """
     # Headers for table. Not used in our case. Must remain as empty list.
-    HEADERS: list = []
+    headers: list = []
     # Table rows with option per each row.
-    TABLE: list = [
+    table: list = [
         ["PRESS BUTTON:", "1️⃣", "IF YOU FEELING", "😁", "HAPPY"],
         ["PRESS BUTTON:", "2️⃣", "IF YOU FEELING", "😌", "CALM"],
         ["PRESS BUTTON:", "3️⃣", "IF YOU FEELING", "😔", "SAD"],
     ]
     # Defines table font.
-    TABLEFMT: str = "pretty"
+    tablefmt: str = "pretty"
     # Defines object of the tabulate class.
-    md_menu = tabulate(TABLE, HEADERS, TABLEFMT)
+    md_menu = tabulate(table, headers, tablefmt)
     # Return tabulated choices for user.
     return f"\n💭Mood menu:\n{md_menu}"
 
@@ -83,17 +83,17 @@ def navigation_menu():
     :rtype: fstr
     """
     # Defines header for the table. Must remain as empty list.
-    HEADERS: list = []
+    headers: list = []
     # Defines table raw's with option per each row.
-    TABLE: list = [
+    table: list = [
         ["PRESS BUTTON:", "1️⃣", "TO FIND MORE FILMS FOR YOUR ACTUAL MOOD"],
         ["PRESS BUTTON:", "2️⃣", "TO CHANGE MOOD"],
         ["PRESS BUTTON:", "3️⃣", "TO EXIT THE PROGRAM"],
     ]
     # Defines table font.
-    TABLEFMT: str = "pretty"
+    tablefmt: str = "pretty"
     # Defines object of the tabulate class.
-    navi_menu = tabulate(TABLE, HEADERS, TABLEFMT)
+    navi_menu = tabulate(table, headers, tablefmt)
     # Outputs tabulated choices for user.
     return f"🧭Navigation menu:\n,{navi_menu}"
 
@@ -110,8 +110,8 @@ def get_navigation_option(user_mood):
         if not menu_option or menu_option not in ["1", "2", "3"]:
             print("\nPlease enter valid number:\n", navigation_menu())
         if menu_option == "1":
-            get_films(user_mood) # Generates new films with the originally passed attribute.
-            print(navigation_menu()) # Outputs navigation menu.
+            get_films(user_mood)  # Generates new films with the originally passed attribute.
+            print(navigation_menu())  # Outputs navigation menu.
         if menu_option == "2":
             print(mood_menu())
             user_mood = get_mood_option()
@@ -123,7 +123,7 @@ def get_navigation_option(user_mood):
             sys.exit(0)
 
 
-def get_films(user_mood: str) -> str:
+def get_films(user_mood):
     """
     Generating 5 films for the user.
     :param: user current mood.

@@ -15,13 +15,16 @@ def films_scrap(user_mood: str) -> list:
     # Target URL, based of the 'user_mood' attribute.
     # Getting response from the target link in a text format.
     if user_mood == "HAPPY":
-        happy_url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&genres=comedy&sort=user_rating,desc"
+        happy_url = ("https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,"
+                     "&genres=comedy&sort=user_rating,desc")
         html_text = requests.get(happy_url).text
     if user_mood == "CALM":
-        calm_url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&genres=adventure&sort=user_rating,desc"
+        calm_url = ("https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,"
+                    "&genres=adventure&sort=user_rating,desc")
         html_text = requests.get(calm_url).text
     if user_mood == "SAD":
-        sad_url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&genres=drama&sort=user_rating,desc"
+        sad_url = ("https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,"
+                   "&genres=drama&sort=user_rating,desc")
         html_text = requests.get(sad_url).text
 
     # Creating object of the BeautifulSoup. Must have attributes - of the target URL and parser type.
