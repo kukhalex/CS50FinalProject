@@ -5,49 +5,65 @@ from imdbfilmscrap import films_scrap
 
 
 def main():
-    # Outputs program logo in ascii format.
-    program_logo()
-    # Outputs program mood menu.
-    mood_menu()
-    # Getting users current mood.
-    mood: str = get_mood()
-    # Generate 5 films to watch based on the user mood.
-    generate_films(mood)
-    # Call navigation menu.
-    navigation_menu(mood)
+    # Outputs program name in ascii format.
+    print(program_logo())
+    # Outputs program mood menu and prompts to chose menu option.
+    print(mood_menu())
+    mood: str = get_mood_option()
+    # Outputs 5 films, then outputs navigation menu and prompts to chose menu option.
+    get_films(mood)
+    print(navigation_menu())
+    get_navigation_option(mood)
 
 
-def program_logo() -> str:
+def program_logo():
     """
-    Converts text to ASCII art.
-    :param: None
-    :type: None
-    :raise: None
-    :return: ASCII program logo.
+    Converts name of the program from text format to ASCII format.
+    :return: text in ASCII format.
     :rtype: str
     """
-    # Sets string(program name) for ASCII output.
+    # Defines program name that will be formatted to ASCII format.
     ascii_logo: str = "MOODIFY"
-    # Sets font for ASCII output.
+    # Defines font that will be used while formatting text to ASCII.
     ascii_font: str = "varsity"
-    # Creating object with pre-set attributes.
-    intro: str = text2art(ascii_logo, ascii_font)
-    # Return str to main function.
+    # Defines object of art class, params must include 'text' and 'font'.
+    intro = text2art(ascii_logo, ascii_font)
+    # Returns formatted text to main module.
     return intro
 
 
-def get_mood():
+def mood_menu():
     """
-    Prompts user for input (his actual mood).
-    :param: None
-    :type: None
-    :raise: None
-    :return: Users mood. '1' = 'HAPPY', '2' = 'CALM', '3' = 'SAD'.
+    Simple user-friendly menu, created with tabulate library.
+    :return: 'Mood menu' with a few options to choose from.
+    :rtype: fstr
+    """
+    # Headers for table. Not used in our case. Must remain as empty list.
+    HEADERS: list = []
+    # Table rows with option per each row.
+    TABLE: list = [
+        ["PRESS BUTTON:", "1️⃣", "IF YOU FEELING", "😁", "HAPPY"],
+        ["PRESS BUTTON:", "2️⃣", "IF YOU FEELING", "😌", "CALM"],
+        ["PRESS BUTTON:", "3️⃣", "IF YOU FEELING", "😔", "SAD"],
+    ]
+    # Defines table font.
+    TABLEFMT: str = "pretty"
+    # Defines object of the tabulate class.
+    md_menu = tabulate(TABLE, HEADERS, TABLEFMT)
+    # Return tabulated choices for user.
+    return f"\n💭Mood menu:\n{md_menu}"
+
+
+def get_mood_option():
+    """
+    Prompts user to type his actual mood, based on the mood_menu function.
+    :return: user current mood. '1' = 'HAPPY', '2' = 'CALM', '3' = 'SAD'.
     :rtype: str
     """
+    # Prompts user for the input, until conditions satisfied.
     while True:
         user_mood = input("\nType the number, followed by the 'Enter' button: ").strip()
-        # Checking correctness of the users input.
+        # Checking if user input matching to the conditions and if 'True' returns corresponding value.
         if not user_mood or user_mood not in ["1", "2", "3"]:
             print("\nPlease enter valid number:\n", mood_menu())
         if user_mood == "1":
@@ -58,89 +74,75 @@ def get_mood():
             return "SAD"
 
 
-def navigation_menu(mood):
+def navigation_menu():
     """
     Navigation menu.
-    :param: None
-    :type: None
-    :raise: None
-    :return: Program navigation menu.
-    :rtype: str
+    :param: user current mood.
+    :type: str
+    :return: 'Navigation menu' with a few options to choose from.
+    :rtype: fstr
     """
-    # Remains to automatically create columns based on the raw's values.
+    # Defines header for the table. Must remain as empty list.
     HEADERS: list = []
-    # For each row sets str with an option to choose from.
+    # Defines table raw's with option per each row.
     TABLE: list = [
         ["PRESS BUTTON:", "1️⃣", "TO FIND MORE FILMS FOR YOUR ACTUAL MOOD"],
         ["PRESS BUTTON:", "2️⃣", "TO CHANGE MOOD"],
         ["PRESS BUTTON:", "3️⃣", "TO EXIT THE PROGRAM"],
     ]
-    # Sets tabulation font. Changeable - look for 'tabulate' library documentation.
+    # Defines table font.
     TABLEFMT: str = "pretty"
-    # Creating tabulate object.
+    # Defines object of the tabulate class.
     navi_menu = tabulate(TABLE, HEADERS, TABLEFMT)
     # Outputs tabulated choices for user.
-    print("🧭Navigation menu:\n", navi_menu)
-    # Prompts user for input.
-    while True:
-        menu_option = input("Type a number, followed by 'Enter' button: ")
-
-        if not menu_option or menu_option not in ["1", "2", "3"]:
-            print("Please, type a valid number.")
-
-        if menu_option == "1":
-            generate_films(mood)
-            navigation_menu(mood)
-
-        if menu_option == "2":
-            mood_menu()
-            mood: str = get_mood()
-            generate_films(mood)
-            navigation_menu(mood)
+    return f"🧭Navigation menu:\n,{navi_menu}"
 
 
-
-
-
-
-
-def mood_menu():
-    # Remains to automatically create columns based on the raw's values.
-    HEADERS: list = []
-    # For each row sets str with an option to choose from.
-    TABLE: list = [
-        ["PRESS BUTTON:", "1️⃣", "IF YOU FEELING", "😁", "HAPPY"],
-        ["PRESS BUTTON:", "2️⃣", "IF YOU FEELING", "😌", "CALM"],
-        ["PRESS BUTTON:", "3️⃣", "IF YOU FEELING", "😔", "SAD"],
-    ]
-    # Sets tabulation font. Changeable - look for 'tabulate' library documentation.
-    TABLEFMT: str = "pretty"
-    # Creating tabulate onject.
-    md_menu = tabulate(TABLE, HEADERS, TABLEFMT)
-    # Return tabulated choices for user.
-    print("💭Mood menu:\n", md_menu)
-
-
-def generate_films(user_mood: str) -> str:
+def get_navigation_option(user_mood):
     """
-    Generating 5 films using imdb scrap module.
-    :param: User mood.
+    Prompts user to type option he would like to chose from navigation menu.
+    :return: user navigation menu option.
+    :rtype: ...
+    """
+    # Prompts user for the input, until conditions satisfied.
+    while True:
+        menu_option = input("\nType a number, followed by 'Enter' button: ")
+        if not menu_option or menu_option not in ["1", "2", "3"]:
+            print("\nPlease enter valid number:\n", navigation_menu())
+        if menu_option == "1":
+            get_films(user_mood) # Generates new films with the originally passed attribute.
+            print(navigation_menu()) # Outputs navigation menu.
+        if menu_option == "2":
+            print(mood_menu())
+            user_mood = get_mood_option()
+            get_films(user_mood)
+            print(navigation_menu())
+            get_navigation_option(user_mood)
+        if menu_option == "3":
+            print("Successful shutdown. See you later! 👋")
+            sys.exit(0)
+
+
+def get_films(user_mood: str) -> str:
+    """
+    Generating 5 films for the user.
+    :param: user current mood.
     :type: str
-    :raise: None
-    :return: 5 films.
+    :return: 5 films with description for each one.
     :rtype: str
     """
-    # Call to scrap module with 'mood' attribute.
+    # Using 'imdbfilmscrap.py' module to get films.
     films = films_scrap(user_mood)
-    # Output 5 films.
+
+    # Returns 5 scrapped films.
     print(f"\n🪄Here are five films to watch while you feeling {user_mood.lower()}:\n")
     for film in films:
         print(
-            f'Title: {film["Title"]}\n'
-            f'IMDB Rating: {film["IMDB Rating"]}\n'
-            f'Length: {film["Length"]}\n'
-            f'Genre: {film["Genre"]}\n'
-            f'By: {film["By"]}\n'
+            f'📽️Title: {film["Title"]}\n'
+            f'⭐IMDB Rating: {film["IMDB Rating"]}\n'
+            f'⌛Length: {film["Length"]}\n'
+            f'🎭Genre: {film["Genre"]}\n'
+            f'🎬By: {film["By"]}\n'
         )
 
 

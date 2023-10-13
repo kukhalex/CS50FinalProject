@@ -3,34 +3,30 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def films_scrap(user_mood: str):
+def films_scrap(user_mood: str) -> list:
     """
-    Based on the param, - which is the users actual mood.
-    Scrap some films from the IMDB web-site.
-    :param: mood
+    Scraps films from th IMDB web-site. Currently, only from the first page for each genre.
+    :param: user_mood
     :type: str
-    :raise: ...
-    :return: ...
-    :rtype: ...
+    :return: list of films dictionaries
+    :rtype: list
     """
 
-    # Target URL (IMDB). Based on the users mood it consists of a different genres.
+    # Target URL, based of the 'user_mood' attribute.
+    # Getting response from the target link in a text format.
     if user_mood == "HAPPY":
-        # Getting text response from url.
         happy_url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&genres=comedy&sort=user_rating,desc"
         html_text = requests.get(happy_url).text
     if user_mood == "CALM":
-        # Getting text response from url.
         calm_url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&genres=adventure&sort=user_rating,desc"
         html_text = requests.get(calm_url).text
     if user_mood == "SAD":
-        # Getting text response from url.
         sad_url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&genres=drama&sort=user_rating,desc"
         html_text = requests.get(sad_url).text
 
-    # Creating object of the BeautifulSoup.
+    # Creating object of the BeautifulSoup. Must have attributes - of the target URL and parser type.
     soup = BeautifulSoup(html_text, "lxml")
-    # Getting films on the first page.
+    # Getting html data of the first page of the target URL.
     films = soup.find_all("div", class_="lister-item-content")
 
     # Holding 'n' numbers of the films. 'n' could be set to any int value in 'films_n' variable.
@@ -71,7 +67,7 @@ def films_scrap(user_mood: str):
         film_director_actors = " ".join(
             i for i in (film.find("p", class_="").text.split())
         )
-        # At each iteration sequence we're appending formatted date to out final films list.
+        # At each iteration sequence we're appending formatted data to out formatted films list.
         formatted_films_list.append(
             {
                 "Title": film_name,
