@@ -1,7 +1,7 @@
 import pytest
 from art import text2art
 from tabulate import tabulate
-from project import program_logo, mood_menu, get_mood
+from project import program_logo, mood_menu, get_mood, navigation_menu
 
 
 # Testing 'program_logo' function.
@@ -17,7 +17,7 @@ def test_program_logo():
 # Testing 'mood_menu' function.
 def test_mood_menu():
     # Testing if function returns valid formatted text.
-    expected_output = f"\n💭Mood menu:\n" + tabulate(
+    expected_output = f"💭Mood menu:\n" + tabulate(
         [
             ["TYPE:", "1️⃣", "IF YOU FEELING", "😁", "HAPPY"],
             ["TYPE:", "2️⃣", "IF YOU FEELING", "😌", "CALM"],
@@ -27,6 +27,19 @@ def test_mood_menu():
         "pretty",
     )
     assert mood_menu() == expected_output
+
+
+def test_navigation_menu():
+    expected_output = f"🧭Navigation menu:\n" + tabulate(
+        [
+            ["TYPE:", "1️⃣", "TO FIND MORE FILMS FOR YOUR ACTUAL MOOD"],
+            ["TYPE:", "2️⃣", "TO CHANGE MOOD"],
+            ["TYPE:", "3️⃣", "TO EXIT THE PROGRAM"],
+        ],
+        [],
+        "pretty",
+    )
+    assert navigation_menu() == expected_output
 
 
 def test_get_mood(monkeypatch):
@@ -44,3 +57,6 @@ def test_get_mood(monkeypatch):
         for _ in range(5):
             get_mood()
     assert str(e.value) == "0"
+
+
+

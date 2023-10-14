@@ -6,9 +6,9 @@ from imdbfilmscrap import films_scrap
 
 def main():
     # Outputs program logo.
-    print(program_logo(), end="")
+    print(program_logo())
     # Outputs program menu of the moods.
-    print(mood_menu(), end="")
+    print(mood_menu())
     # Prompts user to type his actual mood by corresponding number.
     mood: str = get_mood()
     # Outputs 5 films, then outputs navigation menu and prompts to chose menu option.
@@ -64,7 +64,7 @@ def mood_menu() -> str:
     # Defines object of the tabulate class.
     md_menu = tabulate(table, headers, tablefmt)
     # Returns formatted text to main module.
-    return f"\n💭Mood menu:\n{md_menu}"
+    return f"💭Mood menu:\n" f"{md_menu}"
 
 
 def get_mood() -> str:
@@ -88,10 +88,11 @@ def get_mood() -> str:
         # If user input is not in mood_dict, outputs message and mood menu, then prompts user to type valid option.
         elif user_mood not in mood_dict:
             print(
-                f"\nOption doesn't exist. Please type valid option number.\n{mood_menu()}"
+                f"\nOption doesn't exist. Please type valid option number.\n"
+                f"\n{mood_menu()}"
             )
     # If user exceeded number of attempts, outputs message and exits the program.
-    print("You have exceeded the number of attempts. Please try again later.")
+    print("\nYou have exceeded the number of attempts. Program is shutting down.\n")
     sys.exit(0)
 
 
@@ -116,17 +117,19 @@ def navigation_menu():
     # Defines object of the tabulate class.
     navi_menu = tabulate(table, headers, tablefmt)
     # Outputs tabulated choices for user.
-    return f"🧭Navigation menu:\n{navi_menu}"
+    return f"🧭Navigation menu:\n" f"{navi_menu}"
 
 
 def get_navigation_option(user_mood):
     """
-    Prompts user to type option he would like to chose from navigation menu.
-    :return: user navigation menu option.
+    Skeleton of the navigation menu.
+    :return: User choice based on the navigation menu options.
     :rtype: ...
     """
-    # Prompts user for the input, until conditions satisfied.
-    while True:
+    # Defines number of attempts to type valid option.
+    attempts = 5
+    # Prompts user to type his actual mood by corresponding number from navigation menu.
+    for _ in range(attempts):
         menu_option = input("\nType a number, followed by 'Enter' button: ")
         if not menu_option or menu_option not in ["1", "2", "3"]:
             print("\nPlease enter valid number:\n", navigation_menu())
