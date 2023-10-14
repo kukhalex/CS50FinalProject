@@ -5,73 +5,92 @@ from imdbfilmscrap import films_scrap
 
 
 def main():
-    # Outputs program name in ascii format.
+    # Outputs program logo.
     print(program_logo(), end="")
-    # Outputs program mood menu and prompts to chose menu option.
-    print(mood_menu())
-    mood: str = get_mood_option()
+    # Outputs program menu of the moods.
+    print(mood_menu(), end="")
+    # Prompts user to type his actual mood by corresponding number.
+    mood: str = get_mood()
     # Outputs 5 films, then outputs navigation menu and prompts to chose menu option.
     get_films(mood)
     print(navigation_menu())
     get_navigation_option(mood)
 
 
-def program_logo():
+def program_logo(name: str = "Moodify", font: str = "varsity"):
     """
     Converts name of the program from text format to ASCII format.
-    :return: text in ASCII format.
+    By the default, converts 'MOODIFY' to ASCII art using 'varsity' font.
+    :param name: The text to be converted to ASCII art.
+    :type name: str
+    :param font: The font to be used for text convert.
+    :type font: str
+    :raises ValueError: If name or font is not valid.
+    :return: ASCII art of the program name.
     :rtype: str
     """
-    # Defines program name that will be formatted to ASCII format.
-    ascii_logo: str = "MOODIFY"
-    # Defines font that will be used while formatting text to ASCII.
-    ascii_font: str = "varsity"
-    # Defines object of art class, params must include 'text' and 'font'.
-    intro = text2art(ascii_logo, ascii_font)
-    # Returns formatted text to main module.
+
+    # Try-except block to handle ValueError exception.
+    try:
+        # Defines object of the art class with name and font attributes.
+        intro = text2art(name, font)
+    except:
+        # Raises ValueError if name or font is not valid.
+        raise ValueError("Please enter valid name or font while calling 'program_logo' function.")
+    # If name and font are valid, returns ASCII art of the program name.
     return intro
 
 
-def mood_menu():
+def mood_menu() -> str:
     """
-    Simple user-friendly menu, created with tabulate library.
+    Skeleton of the mood menu.
     :return: 'Mood menu' with a few options to choose from.
     :rtype: fstr
     """
-    # Headers for table. Not used in our case. Must remain as empty list.
+
+    # Headers for table. Must remain as empty list.
     headers: list = []
-    # Table rows with option per each row.
+    # Table raw's with option per each row.
     table: list = [
         ["TYPE:", "1️⃣", "IF YOU FEELING", "😁", "HAPPY"],
         ["TYPE:", "2️⃣", "IF YOU FEELING", "😌", "CALM"],
         ["TYPE:", "3️⃣", "IF YOU FEELING", "😔", "SAD"],
     ]
-    # Defines table font.
+    # Table font.
     tablefmt: str = "pretty"
+
     # Defines object of the tabulate class.
     md_menu = tabulate(table, headers, tablefmt)
-    # Return tabulated choices for user.
+    # Returns formatted text to main module.
     return f"\n💭Mood menu:\n{md_menu}"
 
 
-def get_mood_option():
+def get_mood() -> str:
     """
-    Prompts user to type his actual mood, based on the mood_menu function.
-    :return: user current mood. '1' = 'HAPPY', '2' = 'CALM', '3' = 'SAD'.
+    Prompts user to type his actual mood by corresponding number.
+    :return: User current mood. "1" -> "HAPPY", "2 -> "CALM", "3" -> "SAD".
     :rtype: str
     """
+
+    # Defines dictionary with mood options.
+    mood_dict = {"1": "HAPPY", "2": "CALM", "3": "SAD"}
+    # Defines number of attempts to type valid option.
+    attempts = 5
     # Prompts user for the input, until conditions satisfied.
-    while True:
+    while attempts > 0:
         user_mood = input("\nType the number, followed by the 'Enter' button: ").strip()
-        # Checking if user input matching to the conditions and if 'True' returns corresponding value.
-        if not user_mood or user_mood not in ["1", "2", "3"]:
-            print("\nPlease enter valid number:\n", mood_menu())
-        if user_mood == "1":
-            return "HAPPY"
-        if user_mood == "2":
-            return "CALM"
-        if user_mood == "3":
-            return "SAD"
+        #
+        if attempts > 0:
+            # Checking if user input is in mood_dict.
+            if user_mood in mood_dict:
+                # If user input is in mood_dict, returns corresponding value.
+                return mood_dict[user_mood]
+            # If not, outputs mood menu and prompts user to type valid option.
+            elif user_mood not in mood_dict:
+                # Decreases number of attempts by 1.
+                attempts -= 1
+                # If user input is not in mood_dict, prompts user to type valid option.
+                print(f"\nOption doesn't exist. Please type valid option number.\n{mood_menu()}")
 
 
 def navigation_menu():
@@ -110,11 +129,13 @@ def get_navigation_option(user_mood):
         if not menu_option or menu_option not in ["1", "2", "3"]:
             print("\nPlease enter valid number:\n", navigation_menu())
         if menu_option == "1":
-            get_films(user_mood)  # Generates new films with the originally passed attribute.
+            get_films(
+                user_mood
+            )  # Generates new films with the originally passed attribute.
             print(navigation_menu())  # Outputs navigation menu.
         if menu_option == "2":
             print(mood_menu())
-            user_mood = get_mood_option()
+            user_mood = get_mood()
             get_films(user_mood)
             print(navigation_menu())
             get_navigation_option(user_mood)
