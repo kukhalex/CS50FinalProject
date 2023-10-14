@@ -36,7 +36,9 @@ def program_logo(name: str = "Moodify", font: str = "varsity"):
         intro = text2art(name, font)
     except:
         # Raises ValueError if name or font is not valid.
-        raise ValueError("Please enter valid name or font while calling 'program_logo' function.")
+        raise ValueError(
+            "Please enter valid name or font while calling 'program_logo' function."
+        )
     # If name and font are valid, returns ASCII art of the program name.
     return intro
 
@@ -70,27 +72,27 @@ def get_mood() -> str:
     Prompts user to type his actual mood by corresponding number.
     :return: User current mood. "1" -> "HAPPY", "2 -> "CALM", "3" -> "SAD".
     :rtype: str
+    :exits: If user exceeded number of attempts.
     """
 
     # Defines dictionary with mood options.
     mood_dict = {"1": "HAPPY", "2": "CALM", "3": "SAD"}
     # Defines number of attempts to type valid option.
     attempts = 5
-    # Prompts user for the input, until conditions satisfied.
-    while attempts > 0:
+    # Prompts user to type his actual mood by corresponding number from mood menu.
+    for _ in range(attempts):
         user_mood = input("\nType the number, followed by the 'Enter' button: ").strip()
-        #
-        if attempts > 0:
-            # Checking if user input is in mood_dict.
-            if user_mood in mood_dict:
-                # If user input is in mood_dict, returns corresponding value.
-                return mood_dict[user_mood]
-            # If not, outputs mood menu and prompts user to type valid option.
-            elif user_mood not in mood_dict:
-                # Decreases number of attempts by 1.
-                attempts -= 1
-                # If user input is not in mood_dict, prompts user to type valid option.
-                print(f"\nOption doesn't exist. Please type valid option number.\n{mood_menu()}")
+        # If user input is in mood_dict, returns corresponding value.
+        if user_mood in mood_dict:
+            return mood_dict[user_mood]
+        # If user input is not in mood_dict, outputs message and mood menu, then prompts user to type valid option.
+        elif user_mood not in mood_dict:
+            print(
+                f"\nOption doesn't exist. Please type valid option number.\n{mood_menu()}"
+            )
+    # If user exceeded number of attempts, outputs message and exits the program.
+    print("You have exceeded the number of attempts. Please try again later.")
+    sys.exit(0)
 
 
 def navigation_menu():
@@ -114,7 +116,7 @@ def navigation_menu():
     # Defines object of the tabulate class.
     navi_menu = tabulate(table, headers, tablefmt)
     # Outputs tabulated choices for user.
-    return f"🧭Navigation menu:\n,{navi_menu}"
+    return f"🧭Navigation menu:\n{navi_menu}"
 
 
 def get_navigation_option(user_mood):

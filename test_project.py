@@ -29,5 +29,18 @@ def test_mood_menu():
     assert mood_menu() == expected_output
 
 
-def test_get_mood():
-    ...
+def test_get_mood(monkeypatch):
+    # Testing if function returns valid mood with valid input.
+    monkeypatch.setattr('builtins.input', lambda _: '1')
+    assert get_mood() == 'HAPPY'
+    monkeypatch.setattr('builtins.input', lambda _: '2')
+    assert get_mood() == 'CALM'
+    monkeypatch.setattr('builtins.input', lambda _: '3')
+    assert get_mood() == 'SAD'
+
+    # Testing case when user input invalid value five times straight.
+    monkeypatch.setattr('builtins.input', lambda _: 'anything_besides_1_2_3_five_times_straight')
+    with pytest.raises(SystemExit) as e:
+        for _ in range(5):
+            get_mood()
+    assert str(e.value) == "0"
