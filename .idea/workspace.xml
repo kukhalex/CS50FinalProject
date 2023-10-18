@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="8db23da7-ebbd-4e0a-81bb-860cc689b1ed" name="Changes" comment="README.md update">
       <change beforePath="$PROJECT_DIR$/.idea/CS50P.FinalProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CS50P.FinalProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/imdbfilmscrap.py" beforeDir="false" afterPath="$PROJECT_DIR$/imdbfilmscrap.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project.py" beforeDir="false" afterPath="$PROJECT_DIR$/project.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_project.py" afterDir="false" />
     </list>
@@ -65,7 +65,7 @@
     "Notification.DoNotAsk-Vcs Important Messages": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "full.screen.before.presentation.mode": "false",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "D:/CS50PFinalProject/venv",
     "settings.editor.selected.configurable": "preferences.lookFeel"
@@ -310,7 +310,15 @@
       <option name="project" value="LOCAL" />
       <updated>1697624029438</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="README.md update">
+      <option name="closed" value="true" />
+      <created>1697625523989</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1697625523989</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -335,11 +343,6 @@
           <url>file://$PROJECT_DIR$/duplicates_for_tests/scraptests.py</url>
           <line>5</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/project.py</url>
-          <line>18</line>
-          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

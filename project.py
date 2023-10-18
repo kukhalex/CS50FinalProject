@@ -13,7 +13,7 @@ def main():
     # Prompts user to type his actual mood by corresponding number.
     mood: str = get_mood()
     # Outputs 5 films for the user.
-    get_films(mood)
+    print(get_films(mood))
 
     # Outputs program navigation menu.
     print(navigation_menu())
@@ -21,12 +21,14 @@ def main():
     option = get_navigation()
     #   If user typed "1", outputs 5 new films for the user.
     if option == "1":
-        get_films(mood)
-    #  If user typed "2", outputs program menu of the moods.
+        print(get_films(mood))
+    #  If user typed "2", outputs program menu of the moods,
+    #  prompts user to type his actual mood by corresponding number,
+    #  then outputs 5 new films for the user.
     elif option == "2":
         print(mood_menu())
         mood: str = get_mood()
-        get_films(mood)
+        print(get_films(mood))
     # If user typed "3", outputs message and exits the program.
     elif option == "3":
         print("\nThank you for using Moodify. Program is shutting down.\n")
@@ -173,16 +175,19 @@ def get_films(mood: str):
     # Using 'imdbfilmscrap.py' module to get films.
     films = films_scrap(mood)
 
-    # Returns 5 scrapped films.
-    print(f"\n🪄Here are five films to watch while you feeling {mood.lower()}: \n")
+    # Preparing output for user.
+    output = f"\n🪄Here are five films to watch while you feeling {mood.lower()}:\n\n"
     for film in films:
-        print(
-            f'📽️Title: {film["Title"]} \n'
-            f'⭐IMDB Rating: {film["IMDB Rating"]} \n'
-            f'⌛Length: {film["Length"]} \n'
-            f'🎭Genre: {film["Genre"]} \n'
-            f'🎬By: {film["By"]} \n'
+        output += (
+            f"🎬Title: {film['Title']}\n"
+            f"📅Year: {film['Year']}\n"
+            f"🎭Genre: {film['Genre']}\n"
+            f"⌛ Length: {film['Length']}\n"
+            f"🌟IMDB Rating: {film['IMDB Rating']}\n"
+            f"📝By: {film['By']}\n"
+            f"{'-' * 50}\n"
         )
+    return output
 
 
 if __name__ == "__main__":
