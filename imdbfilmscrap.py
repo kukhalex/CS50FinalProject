@@ -3,17 +3,17 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def films_scrap(user_mood: str) -> list:
+def films_scrap(mood: str) -> list:
     """
-    Scraps films from th IMDB web-site. Currently, only from the first page for each genre.
-    :param: user_mood
+    Scraps films from th IMDB web-site.
+    :param: mood
     :type: str
     :return: list of films dictionaries
     :rtype: list
     """
 
     # Defines target URL based on 'user_mood' argument.
-    if user_mood == "HAPPY":
+    if mood == "HAPPY":
         html_url = (
             "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,"
             "&genres=comedy&genres=!drama,!adventure"
@@ -21,7 +21,7 @@ def films_scrap(user_mood: str) -> list:
             "&count=100"
             "&sort=user_rating,desc"
         )
-    if user_mood == "CALM":
+    elif mood == "CALM":
         html_url = (
             "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,"
             "&genres=adventure&genres=!drama,!comedy"
@@ -29,7 +29,7 @@ def films_scrap(user_mood: str) -> list:
             "&count=100"
             "&sort=user_rating,desc"
         )
-    if user_mood == "SAD":
+    elif mood == "SAD":
         html_url = (
             "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,"
             "&genres=drama&genres=!adventure,!comedy"

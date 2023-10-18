@@ -1,7 +1,8 @@
 import pytest
 from art import text2art
 from tabulate import tabulate
-from project import program_logo, mood_menu, get_mood, navigation_menu
+from project import program_logo, mood_menu, navigation_menu
+from project import get_mood, get_navigation
 
 
 # Testing 'program_logo' function.
@@ -17,7 +18,7 @@ def test_program_logo():
 # Testing 'mood_menu' function.
 def test_mood_menu():
     # Testing if function returns valid formatted text.
-    expected_output = f"💭Mood menu:\n" + tabulate(
+    expected_output = f"\n💭Mood menu:\n" + tabulate(
         [
             ["TYPE:", "1️⃣", "IF YOU FEELING", "😁", "HAPPY"],
             ["TYPE:", "2️⃣", "IF YOU FEELING", "😌", "CALM"],
@@ -30,9 +31,9 @@ def test_mood_menu():
 
 
 def test_navigation_menu():
-    expected_output = f"🧭Navigation menu:\n" + tabulate(
+    expected_output = f"\n🧭Navigation menu:\n" + tabulate(
         [
-            ["TYPE:", "1️⃣", "TO FIND MORE FILMS FOR YOUR ACTUAL MOOD"],
+            ["TYPE:", "1️⃣", "TO FIND MORE FILMS"],
             ["TYPE:", "2️⃣", "TO CHANGE MOOD"],
             ["TYPE:", "3️⃣", "TO EXIT THE PROGRAM"],
         ],
@@ -57,6 +58,40 @@ def test_get_mood(monkeypatch):
         for _ in range(5):
             get_mood()
     assert str(e.value) == "0"
+
+
+def test_get_navigation_option_1(monkeypatch):
+    # Mock objects.
+    mock_get_films = monkeypatch.setattr('project.get_films', lambda x: None)
+    mock_navigation_menu = monkeypatch.setattr('project.navigation_menu', lambda: None)
+    mock_get_navigation = monkeypatch.setattr('project.get_navigation', lambda x: None)
+
+    # Imitate user input.
+    monkeypatch.setattr('builtins.input', lambda x: '1')
+    
+    # Calling function.
+    get_navigation('HAPPY')
+    mock_get_films.assert_called_once_with('HAPPY')
+    mock_navigation_menu.assert_called_once()
+    mock_get_navigation.assert_called_once_with('HAPPY')
+
+def test_get_navigation_option_2(monkeypatch):
+    # Mock objects.
+    mock_get_films = monkeypatch.setattr('project.get_films', lambda x: None)
+    mock_navigation_menu = monkeypatch.setattr('project.navigation_menu', lambda: None)
+    mock_get_navigation = monkeypatch.setattr('project.get_navigation', lambda x: None)
+    mock_mood_menu = monkeypatch.setattr('project.mood_menu', lambda: None)
+    mock_get_mood = monkeypatch.setattr('project.get_mood', lambda: 'HAPPY')
+    # Imitate user input.
+    monkeypatch.setattr('builtins.input', lambda x: '2')
+    # Calling function.
+    get_navigation('HAPPY')
+    mock_mood_menu.assert_called_once()
+    mock_get_mood.assert_called_once()
+    mock_get_films.assert_called_once_with('HAPPY')
+    mock_navigation_menu.assert_called_once()
+    mock_get_navigation.assert_called_once_with('HAPPY')
+
 
 
 
