@@ -7,16 +7,30 @@ from imdbfilmscrap import films_scrap
 def main():
     # Outputs program logo.
     print(program_logo(), end="")
+
     # Outputs program menu of the moods.
     print(mood_menu())
     # Prompts user to type his actual mood by corresponding number.
     mood: str = get_mood()
     # Outputs 5 films for the user.
     get_films(mood)
+
     # Outputs program navigation menu.
     print(navigation_menu())
     # Prompts user to type option number from navigation menu.
-    get_navigation(mood)
+    option = get_navigation()
+    #   If user typed "1", outputs 5 new films for the user.
+    if option == "1":
+        get_films(mood)
+    #  If user typed "2", outputs program menu of the moods.
+    elif option == "2":
+        print(mood_menu())
+        mood: str = get_mood()
+        get_films(mood)
+    # If user typed "3", outputs message and exits the program.
+    elif option == "3":
+        print("\nThank you for using Moodify. Program is shutting down.\n")
+        sys.exit(0)
 
 
 def program_logo(name: str = "Moodify", font: str = "varsity"):
@@ -66,7 +80,7 @@ def mood_menu() -> str:
     # Defines object of the tabulate class.
     md_menu = tabulate(table, headers, tablefmt)
     # Returns formatted text to main module.
-    return f"\n💭Mood menu:\n" f"{md_menu}"
+    return f"\n💭Mood menu: \n" f"{md_menu}"
 
 
 def get_mood() -> str:
@@ -119,12 +133,12 @@ def navigation_menu():
     # Defines object of the tabulate class.
     navi_menu = tabulate(table, headers, tablefmt)
     # Outputs tabulated choices for user.
-    return f"\n🧭Navigation menu:\n" f"{navi_menu}"
+    return f"\n🧭Navigation menu: \n" f"{navi_menu}"
 
 
-def get_navigation(mood: str):
+def get_navigation():
     """
-    Skeleton of the navigation menu. Taking action based on user choice.
+    Skeleton of the navigation menu.
     :return: User choice based on the navigation menu options.
     :rtype: ...
     """
@@ -136,20 +150,9 @@ def get_navigation(mood: str):
     # Prompts user to type his actual mood by corresponding number from navigation menu.
     for _ in range(attempts):
         user_option = input("\nType a number, followed by 'Enter' button: ").strip()
-        if user_option == "1":
-            get_films(mood),
-            print(navigation_menu())
-            get_navigation(mood)
-        elif user_option == "2":
-            print(mood_menu())
-            mood = get_mood()
-            get_films(mood)
-            print(navigation_menu())
-            get_navigation(mood)
-        elif user_option == "3":
-            print("\nProgram is shutting down.\n")
-            sys.exit(0)
-        elif user_option or user_option not in navigation_options:
+        if user_option in navigation_options:
+            return user_option
+        else:
             print(
                 "\nOption doesn't exist. Please type valid option number.\n",
                 f"{navigation_menu()}",
@@ -171,14 +174,14 @@ def get_films(mood: str):
     films = films_scrap(mood)
 
     # Returns 5 scrapped films.
-    print(f"\n🪄Here are five films to watch while you feeling {mood.lower()}:\n")
+    print(f"\n🪄Here are five films to watch while you feeling {mood.lower()}: \n")
     for film in films:
         print(
-            f'📽️Title: {film["Title"]}\n'
-            f'⭐IMDB Rating: {film["IMDB Rating"]}\n'
-            f'⌛Length: {film["Length"]}\n'
-            f'🎭Genre: {film["Genre"]}\n'
-            f'🎬By: {film["By"]}\n'
+            f'📽️Title: {film["Title"]} \n'
+            f'⭐IMDB Rating: {film["IMDB Rating"]} \n'
+            f'⌛Length: {film["Length"]} \n'
+            f'🎭Genre: {film["Genre"]} \n'
+            f'🎬By: {film["By"]} \n'
         )
 
 
